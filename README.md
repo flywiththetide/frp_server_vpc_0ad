@@ -69,3 +69,55 @@
 
 2. Test if players can join the game successfully.
 
+## TESTING
+
+### 1. **Check if the UDP Port is Open (Using netcat or nc)**
+
+One way to test if the UDP port `20595` is open and reachable is by using the `netcat` (or `nc`) command.
+
+#### **On the game server (local machine)**:
+
+1. **Install netcat (if it's not already installed)**:
+   - On Debian/Ubuntu-based systems:
+     ```bash
+     sudo apt-get install netcat
+     ```
+
+2. **Start listening on UDP port 20595**:
+   ```bash
+   nc -u -l 20595
+   ```
+
+   This command tells netcat to listen for UDP traffic on port `20595`.
+
+#### **On a remote machine** 
+
+1. **Install netcat** (if not installed) as described above.
+   ```bash
+   sudo apt-get install netcat
+```
+2. **Send a test message to the server**:
+   Replace `your-vps-ip` with your actual VPS IP address.
+   ```bash
+   echo "test" | nc -u your-vps-ip 20595
+   ```
+
+## More Troubleshooting
+
+
+### Option 2: Use `ss` (socket statistics)
+`ss` is a modern replacement for `netstat` and should already be installed on most Linux distributions.
+
+You can check active listening ports using:
+```bash
+sudo ss -tunlp | grep 20595
+```
+
+This will show you which processes are listening on the UDP port `20595` and can help verify that the game server is correctly listening on the expected port.
+
+### Expected output
+```bash
+sudo ss -tunlp | grep 20595
+udp   UNCONN 0      0            0.0.0.0:20595      0.0.0.0:*    users:(("main",pid=603394,fd=36))
+```
+
